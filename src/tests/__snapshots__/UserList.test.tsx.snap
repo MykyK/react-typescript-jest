@@ -1,0 +1,298 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserList component should rendered UserList component with default array in object props 1`] = `
+<div
+  className="user-list-wrapper"
+  style={
+    Object {
+      "height": 400,
+      "width": "100%",
+    }
+  }
+>
+  <Memo([object Object])
+    columns={
+      Array [
+        Object {
+          "field": "id",
+          "headerName": "ID",
+          "width": 70,
+        },
+        Object {
+          "field": "name",
+          "headerName": "First name",
+          "width": 230,
+        },
+        Object {
+          "field": "email",
+          "headerName": "Email",
+          "width": 230,
+        },
+        Object {
+          "disableClickEventBubbling": true,
+          "disableColumnMenu": true,
+          "field": "is_admin",
+          "headerName": "Admin",
+          "renderCell": [Function],
+          "width": 130,
+        },
+        Object {
+          "field": "age",
+          "headerName": "Age",
+          "type": "number",
+          "width": 90,
+        },
+        Object {
+          "disableClickEventBubbling": true,
+          "disableColumnMenu": true,
+          "field": "",
+          "filterable": false,
+          "headerName": "Action",
+          "renderCell": [Function],
+          "sortable": false,
+        },
+      ]
+    }
+    pageSize={5}
+    rows={
+      Array [
+        Object {
+          "address": Object {
+            "city": "Gwenborough",
+            "street": "Kulas Light",
+            "suite": "Apt. 556",
+            "zipcode": "92998-3874",
+          },
+          "age": 21,
+          "email": "Sincere@april.biz",
+          "id": 1,
+          "is_admin": true,
+          "name": "Leanne Graham",
+          "username": "Bret",
+        },
+        Object {
+          "address": Object {
+            "city": "Wisokyburgh",
+            "geo": Object {
+              "lat": "-43.9509",
+              "lng": "-34.4618",
+            },
+            "street": "Victor Plains",
+            "suite": "Suite 879",
+            "zipcode": "90566-7771",
+          },
+          "age": 25,
+          "email": "Shanna@melissa.tv",
+          "id": 2,
+          "is_admin": false,
+          "name": "Ervin Howell",
+          "username": "Antonette",
+        },
+        Object {
+          "address": Object {
+            "city": "McKenziehaven",
+            "geo": Object {
+              "lat": "-68.6102",
+              "lng": "-47.0653",
+            },
+            "street": "Douglas Extension",
+            "suite": "Suite 847",
+            "zipcode": "59590-4157",
+          },
+          "age": 32,
+          "email": "Nathan@yesenia.net",
+          "id": 3,
+          "is_admin": false,
+          "name": "Clementine Bauch",
+          "username": "Samantha",
+        },
+        Object {
+          "address": Object {
+            "city": "South Elvis",
+            "geo": Object {
+              "lat": "29.4572",
+              "lng": "-164.2990",
+            },
+            "street": "Hoeger Mall",
+            "suite": "Apt. 692",
+            "zipcode": "53919-4257",
+          },
+          "age": 18,
+          "email": "Julianne.OConner@kory.org",
+          "id": 4,
+          "is_admin": false,
+          "name": "Patricia Lebsack",
+          "username": "Karianne",
+        },
+        Object {
+          "address": Object {
+            "city": "Roscoeview",
+            "geo": Object {
+              "lat": "-31.8129",
+              "lng": "62.5342",
+            },
+            "street": "Skiles Walks",
+            "suite": "Suite 351",
+            "zipcode": "33263",
+          },
+          "age": 21,
+          "email": "Lucio_Hettinger@annie.ca",
+          "id": 5,
+          "is_admin": false,
+          "name": "Chelsey Dietrich",
+          "username": "Kamren",
+        },
+        Object {
+          "address": Object {
+            "city": "South Christy",
+            "geo": Object {
+              "lat": "-71.4197",
+              "lng": "71.7478",
+            },
+            "street": "Norberto Crossing",
+            "suite": "Apt. 950",
+            "zipcode": "23505-1337",
+          },
+          "age": 46,
+          "email": "Karley_Dach@jasper.info",
+          "id": 6,
+          "is_admin": false,
+          "name": "Mrs. Dennis Schulist",
+          "username": "Leopoldo_Corkery",
+        },
+        Object {
+          "address": Object {
+            "city": "Howemouth",
+            "geo": Object {
+              "lat": "24.8918",
+              "lng": "21.8984",
+            },
+            "street": "Rex Trail",
+            "suite": "Suite 280",
+            "zipcode": "58804-1099",
+          },
+          "age": 38,
+          "email": "Telly.Hoeger@billy.biz",
+          "id": 7,
+          "is_admin": false,
+          "name": "Kurtis Weissnat",
+          "username": "Elwyn.Skiles",
+        },
+        Object {
+          "address": Object {
+            "city": "Aliyaview",
+            "geo": Object {
+              "lat": "-14.3990",
+              "lng": "-120.7677",
+            },
+            "street": "Ellsworth Summit",
+            "suite": "Suite 729",
+            "zipcode": "45169",
+          },
+          "age": 33,
+          "email": "Sherwood@rosamond.me",
+          "id": 8,
+          "is_admin": false,
+          "name": "Nicholas Runolfsdottir V",
+          "username": "Maxime_Nienow",
+        },
+        Object {
+          "address": Object {
+            "city": "Bartholomebury",
+            "geo": Object {
+              "lat": "24.6463",
+              "lng": "-168.8889",
+            },
+            "street": "Dayna Park",
+            "suite": "Suite 449",
+            "zipcode": "76495-3109",
+          },
+          "age": 26,
+          "email": "Chaim_McDermott@dana.io",
+          "id": 9,
+          "is_admin": false,
+          "name": "Glenna Reichert",
+          "username": "Delphine",
+        },
+        Object {
+          "address": Object {
+            "city": "Lebsackbury",
+            "geo": Object {
+              "lat": "-38.2386",
+              "lng": "57.2232",
+            },
+            "street": "Kattie Turnpike",
+            "suite": "Suite 198",
+            "zipcode": "31428-2261",
+          },
+          "age": 52,
+          "email": "Rey.Padberg@karina.biz",
+          "id": 10,
+          "is_admin": false,
+          "name": "Clementina DuBuque",
+          "username": "Moriah.Stanton",
+        },
+      ]
+    }
+  />
+</div>
+`;
+
+exports[`UserList component should rendered UserList component with empty array in object props 1`] = `
+<div
+  className="user-list-wrapper"
+  style={
+    Object {
+      "height": 400,
+      "width": "100%",
+    }
+  }
+>
+  <Memo([object Object])
+    columns={
+      Array [
+        Object {
+          "field": "id",
+          "headerName": "ID",
+          "width": 70,
+        },
+        Object {
+          "field": "name",
+          "headerName": "First name",
+          "width": 230,
+        },
+        Object {
+          "field": "email",
+          "headerName": "Email",
+          "width": 230,
+        },
+        Object {
+          "disableClickEventBubbling": true,
+          "disableColumnMenu": true,
+          "field": "is_admin",
+          "headerName": "Admin",
+          "renderCell": [Function],
+          "width": 130,
+        },
+        Object {
+          "field": "age",
+          "headerName": "Age",
+          "type": "number",
+          "width": 90,
+        },
+        Object {
+          "disableClickEventBubbling": true,
+          "disableColumnMenu": true,
+          "field": "",
+          "filterable": false,
+          "headerName": "Action",
+          "renderCell": [Function],
+          "sortable": false,
+        },
+      ]
+    }
+    pageSize={5}
+    rows={Array []}
+  />
+</div>
+`;
