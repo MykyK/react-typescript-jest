@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { IEditUserAction, IUser } from '../../interfaces';
@@ -28,12 +28,7 @@ interface PropsType extends RouteComponentProps {
   actionEditUser: (arg: IUser) => IEditUserAction
 }
 
-enum HandleTypes {
-  FirstName = 'FirstName',
-  LastName = 'LastName',
-  Email = 'Email',
-  Age = 'Age'
-}
+
 
 const EditForm: React.FC<PropsType> = ({ user, actionEditUser, history }) => {
   const classes = useStyles();
@@ -41,6 +36,32 @@ const EditForm: React.FC<PropsType> = ({ user, actionEditUser, history }) => {
   const [userData, setUserData] = useState(user)
   const [open, setOpen] = useState(false)
   const [validation, setValidation] = useState('')
+  const [firstName, setFirstName] = useState(user.name.split(' ')[0])
+  const [lastName, setLastName] = useState(user.name.split(' ')[1])
+  const [email, setEmail] = useState(user.email)
+  const [age, setAge] = useState(user.age)
+
+  useEffect(() => {
+    setUserData(prev => prev = { ...prev, name: `${firstName} ${prev.name.split(' ')[1]}` })
+  }, [firstName])
+
+
+  useEffect(() => {
+    setUserData(prev => prev = { ...prev, name: `${prev.name.split(' ')[0]} ${lastName}` })
+  }, [lastName])
+
+
+  useEffect(() => {
+    if (!!emailValidator(email)) {
+      setValidation(emailValidator(email))
+      setUserData(prev => prev = { ...prev, age: age })
+    } else {
+      setUserData(prev => prev = { ...prev, age: age, email: email })
+      setValidation(emailValidator(email))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email, age])
+
 
   const emailRegex = new RegExp(/\S+@\S+\.\S+/);
 
@@ -51,24 +72,7 @@ const EditForm: React.FC<PropsType> = ({ user, actionEditUser, history }) => {
   const fieldValidator = (): boolean => {
     return userData.name.length > 1 && !validation.length && userData.age ? false : true
   }
-  const handleSetData = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, type: string): void => {
-    if (type === 'FirstName') {
-      setUserData(prev => prev = { ...prev, name: `${e.target.value} ${prev.name.split(' ')[1]}` })
-    } else if (type === 'LastName') {
-      setUserData(prev => prev = { ...prev, name: `${prev.name.split(' ')[0]} ${e.target.value}` })
-    }
-    else if (type === 'Email') {
-      if (!!emailValidator(e.target.value)) {
-        setValidation(emailValidator(e.target.value))
-      } else {
-        setUserData(prev => prev = { ...prev, email: e.target.value })
-        setValidation(emailValidator(e.target.value))
-      }
-    }
-    else if (type === 'Age') {
-      setUserData(prev => prev = { ...prev, age: e.target.value })
-    }
-  }
+
 
   const handleClick = (data: IUser): void => {
     actionEditUser(data)
@@ -84,30 +88,28 @@ const EditForm: React.FC<PropsType> = ({ user, actionEditUser, history }) => {
       <form className={classes.root} autoComplete="off">
         <div className="text-field-wrapper">
           <TextField
-            inputProps={{ "data-testid": "first-name-input" }}
-            label="First Name" defaultValue={user.name.split(' ')[0]}
-            onChange={e => handleSetData(e, HandleTypes.FirstName)}
+            value={firstName}
+            label="First Name"
+            onChange={e => setFirstName(e.target.value)}
           />
           <TextField
-            inputProps={{ "data-testid": "last-name-input" }}
             label="Last Name"
-            onChange={e => handleSetData(e, HandleTypes.LastName)}
-            defaultValue={user.name.split(' ')[1]}
+            onChange={e => setLastName(e.target.value)}
+            value={lastName}
           />
           <TextField
-            inputProps={{ "data-testid": "email-input" }}
             label="Email"
             error={!!validation}
-            onChange={e => handleSetData(e, HandleTypes.Email)}
-            defaultValue={user.email}
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             helperText={validation}
           />
           <TextField
-            inputProps={{ "data-testid": "age-input" }}
             label="Age"
             type="number"
-            defaultValue={user.age}
-            onChange={e => handleSetData(e, HandleTypes.Age)}
+            value={age}
+            InputProps={{ inputProps: { min: 0 } }}
+            onChange={e => setAge(e.target.value)}
             InputLabelProps={{
               shrink: true,
             }}
