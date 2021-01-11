@@ -1,5 +1,3 @@
-import { TextField } from '@material-ui/core';
-import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import { render, fireEvent, screen } from '@testing-library/react'
 import EditForm from '../components/editForm';
 import React from 'react';
@@ -34,12 +32,6 @@ describe('EditForm', () => {
       </BrowserRouter>
     </Provider>)
   })
-
-
-
-
-
-
 
   test('should render TextField with FirstName default value', () => {
     let firstNameInput = screen.getByTestId(/first-name-input/i) as HTMLInputElement | HTMLTextAreaElement
