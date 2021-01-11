@@ -1,14 +1,16 @@
-import { render, fireEvent, screen } from '@testing-library/react'
 import EditForm from '../components/editForm';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store';
+import { mount, ReactWrapper } from 'enzyme';
+import { TextField, Button } from '@material-ui/core';
+import { IUser } from './../interfaces/index';
 
 
 
 
-const user = {
+const user: IUser = {
   "id": 1,
   "name": "Leanne Graham",
   "username": "Bret",
@@ -22,85 +24,99 @@ const user = {
     "zipcode": "92998-3874"
   }
 }
-
+enum FieldTypes {
+  FirstName,
+  LastName,
+  Email,
+  Age
+}
 
 describe('EditForm', () => {
+
+  let component: ReactWrapper
   beforeEach(() => {
-    render(<Provider store={store}>
-      <BrowserRouter>
-        <EditForm user={user} />
-      </BrowserRouter>
-    </Provider>)
+    component = mount(
+      <Provider store={store}>
+        <BrowserRouter>
+          <EditForm user={user} />
+        </BrowserRouter>
+      </Provider>
+    );
   })
 
-  test('should render TextField with FirstName default value', () => {
-    let firstNameInput = screen.getByTestId(/first-name-input/i) as HTMLInputElement | HTMLTextAreaElement
-    expect(firstNameInput.value).toContain('Leanne')
-    expect(firstNameInput.value).toMatchSnapshot()
-  });
+  afterEach(() => {
+    component.unmount()
+  })
 
-  test('should render TextField with LastName default value', () => {
-    let LastNameInput = screen.getByTestId(/last-name-input/i) as HTMLInputElement | HTMLTextAreaElement
-    expect(LastNameInput.value).toContain('Graham')
-    expect(LastNameInput.value).toMatchSnapshot()
-  });
+  describe('TextFields', () => {
+    it('should render TextField with FirstName default value', () => {
+      let firstName = component.find(TextField).at(FieldTypes.FirstName)
+      expect(firstName.exists()).toBe(true)
+      expect(firstName.prop('value')).toBe('Leanne')
+    });
 
+    it('should render TextField with LastName default value', () => {
+      let lastName = component.find(TextField).at(FieldTypes.LastName)
+      expect(lastName.exists()).toBe(true)
+      expect(lastName.prop('value')).toBe('Graham')
+    });
 
-  test('should render TextField with Email default value', () => {
-    let EmailInput = screen.getByTestId(/email-input/i) as HTMLInputElement | HTMLTextAreaElement
-    expect(EmailInput.value).toContain('Sincere@april.biz')
-    expect(EmailInput.value).toMatchSnapshot()
-  });
+    it('should render TextField with Email default value', () => {
+      let email = component.find(TextField).at(FieldTypes.Email)
+      expect(email.exists()).toBe(true)
+      expect(email.prop('value')).toBe('Sincere@april.biz')
+    });
 
-  test('should render TextField with Age default value', () => {
-    let ageInput = screen.getByTestId(/age-input/i) as HTMLInputElement | HTMLTextAreaElement
-    expect(ageInput.value).toContain('21')
-    expect(ageInput.value).toMatchSnapshot()
-  });
+    it('should render TextField with Age default value', () => {
+      let age = component.find(TextField).at(FieldTypes.Age)
+      expect(age.exists()).toBe(true)
+      expect(age.prop('value')).toBe(21)
+    });
+  })
 
 
   describe('Edit handlers', () => {
 
+    it('should render TextField with FirstName new value', () => {
+      const event = {
+        target: { value: 'Test' },
+      }
+      expect(component.find(TextField).at(FieldTypes.FirstName).find('input').at(0).prop('value')).toBe('Leanne')
+      component.find(TextField).at(FieldTypes.FirstName).find('input').at(0).simulate('change', event)
+      component.update();
 
-
-
-    test('should render TextField with change First Name value', () => {
-      let firstNameInput = screen.getByTestId(/first-name-input/i) as HTMLInputElement | HTMLTextAreaElement
-      fireEvent.change(firstNameInput, {
-        target: { value: 'Test' }
-      })
-      expect(firstNameInput.value).toBe('Test')
-      expect(firstNameInput.value).toMatchSnapshot()
-
+      expect(component.find(TextField).at(FieldTypes.FirstName).find('input').at(0).prop('value')).toBe('Test')
     });
 
-    test('should render TextField with change Last Name value', () => {
-      let LastNameInput = screen.getByTestId(/last-name-input/i) as HTMLInputElement | HTMLTextAreaElement
-      fireEvent.change(LastNameInput, {
-        target: { value: 5 }
-      })
-      expect(LastNameInput.value).toBe('5')
-      expect(LastNameInput.value).toMatchSnapshot()
-    });
-    test('should render TextField with change Email value', () => {
-      let EmailInput = screen.getByTestId(/email-input/i) as HTMLInputElement | HTMLTextAreaElement
-      fireEvent.change(EmailInput, {
-        target: { value: 'Test@gmail.com' }
-      })
-      expect(EmailInput.value).toBe('Test@gmail.com')
-      expect(EmailInput.value).toMatchSnapshot()
+    it('should render TextField with LastName new value', () => {
+      const event = {
+        target: { value: 'Test' },
+      }
+      expect(component.find(TextField).at(FieldTypes.LastName).find('input').at(0).prop('value')).toBe('Graham')
+      component.find(TextField).at(FieldTypes.LastName).find('input').at(0).simulate('change', event)
+      component.update();
+      expect(component.find(TextField).at(FieldTypes.LastName).find('input').at(0).prop('value')).toBe('Test')
     });
 
-    test('should render TextField with change Age value', () => {
-      let ageInput = screen.getByTestId(/age-input/i) as HTMLInputElement | HTMLTextAreaElement
-      fireEvent.change(ageInput, {
-        target: { value: 5 }
-      })
-      expect(ageInput.value).toBe('5')
-      expect(ageInput.value).toMatchSnapshot()
-
+    it('should render TextField with Email new value', () => {
+      const event = {
+        target: { value: 'Test@gmail.com' },
+      }
+      expect(component.find(TextField).at(FieldTypes.Email).find('input').at(0).prop('value')).toBe('Sincere@april.biz')
+      component.find(TextField).at(FieldTypes.Email).find('input').at(0).simulate('change', event)
+      component.update();
+      expect(component.find(TextField).at(FieldTypes.Email).find('input').at(0).prop('value')).toBe('Test@gmail.com')
     });
 
+    it('should render TextField with Age new value', () => {
+      const event = {
+        target: { value: 18 },
+      }
+      expect(component.find(TextField).at(FieldTypes.Age).find('input').at(0).prop('value')).toBe(21)
+      component.find(TextField).at(FieldTypes.Age).find('input').at(0).simulate('change', event)
+      component.update();
+      expect(component.find(TextField).at(FieldTypes.Age).find('input').at(0).prop('value')).toBe(18)
+    });
   })
 
 })

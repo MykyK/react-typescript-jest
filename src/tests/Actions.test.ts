@@ -37,7 +37,6 @@ describe('select_actions', () => {
 
       store.dispatch(actionEditUser(user));
       expect(store.getActions()).toEqual(expectedActions);
-      expect(store.getActions()).toMatchSnapshot();
     });
   });
 });

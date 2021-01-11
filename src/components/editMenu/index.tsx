@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import EditIcon from '@material-ui/icons/Edit';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,7 +12,7 @@ interface PropsType extends RouteComponentProps {
 
 
  const EditMenu:React.FC<PropsType> = ({history, id}) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>):void => {
     setAnchorEl(event.currentTarget);
@@ -27,8 +27,8 @@ interface PropsType extends RouteComponentProps {
   }
 
   return (
-    <div>
-      <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}><EditIcon/></IconButton >
+    <div className='edit-menu'>
+      <IconButton className="edit-btn" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}><EditIcon/></IconButton >
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}

@@ -1,22 +1,16 @@
 
 import React from 'react'
-import { connect } from 'react-redux';
 import UserList from '../components/userList'
-import { IUserData } from '../interfaces';
 
 
- const Dashboard:React.FC<IUserData> = ({users}) => {
+ const Dashboard:React.FC = () => {
   return (
     <div>
-      <UserList users={users}/>
+      <UserList />
     </div>
   )
 }
 
-function MapStateToProps(state: IUserData): IUserData {
-  return {
-    users: state.users
-  };
-}
 
-export default connect(MapStateToProps)(Dashboard);
+
+export default Dashboard;

@@ -3,6 +3,7 @@ import { DataGrid, ColDef, CellParams } from '@material-ui/data-grid';
 import EditMenu from '../editMenu';
 import { IUserData } from '../../interfaces';
 import { Checkbox } from '@material-ui/core';
+import { connect } from 'react-redux';
 
 const columns: ColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -48,4 +49,11 @@ const UserList: React.FC<IUserData> = ({ users }) => {
     </div>
   );
 }
-export default UserList;
+
+function MapStateToProps(state: IUserData): IUserData {
+  return {
+    users: state.users
+  };
+}
+
+export default connect(MapStateToProps)(UserList);
