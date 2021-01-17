@@ -1,6 +1,7 @@
 import userReducer from './../reducers/index';
-import { EDIT_USER } from './../constants';
+import { EDIT_USER, GET_USERS, SHOW_LOADER, HIDE_LOADER } from './../constants';
 import users from '../users.json';
+import { userState } from '../interfaces';
 const user = {
   "id": 1,
   "name": "Test Test",
@@ -16,9 +17,14 @@ const user = {
   }
 }
 
+const initialState: userState = {
+  users,
+  loading: false
+};
+
 describe('userReducer', () => {
-  test('should return the initial state', () => {
-    expect(userReducer({ users }, {
+  it('should return the initial state', () => {
+    expect(userReducer(initialState, {
       type: EDIT_USER,
       payload: {
         user
@@ -31,5 +37,21 @@ describe('userReducer', () => {
         return u
       })
     })
+  })
+  it('handles GET_USER action', () => {
+    expect(userReducer(initialState, {
+      type: GET_USERS,
+      payload: users
+    })).toEqual({ ...initialState, users })
+  })
+  it('handles SHOW_USER action', () => {
+    expect(userReducer(initialState, {
+      type: SHOW_LOADER,
+    })).toEqual({ ...initialState, loading: true })
+  })
+  it('handles HIDE_LOADER action', () => {
+    expect(userReducer(initialState, {
+      type: HIDE_LOADER,
+    })).toEqual({ ...initialState, loading: false })
   })
 })

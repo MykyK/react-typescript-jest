@@ -1,12 +1,11 @@
-import { createStore } from "redux";
-import { IUserData } from "./interfaces";
+import { createStore, applyMiddleware } from "redux";
 import userReducer from "./reducers";
+import createSagaMiddleware from "redux-saga";
+import { sagaWatcher } from "./sagas";
+const saga = createSagaMiddleware();
 
-import users from "./users.json";
+const store = createStore(userReducer as any, applyMiddleware(saga));
 
-const configureStore = (preloadedState: IUserData) =>
-  createStore(userReducer, preloadedState);
-
-const store = configureStore({ users });
+saga.run(sagaWatcher);
 
 export default store;

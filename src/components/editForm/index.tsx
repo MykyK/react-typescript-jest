@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { IEditUserAction, IUser } from '../../interfaces';
+import { IUser } from '../../interfaces';
 import { Button } from '@material-ui/core';
-import { connect } from 'react-redux';
-import { actionEditUser } from './../../actions';
-import { withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router-dom';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import { emailValidator } from '../../utils';
+import { actionEditUser } from '../../actions/index'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,16 +23,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 
-interface PropsType extends RouteComponentProps {
+interface PropsType {
   user: IUser,
-  actionEditUser: (arg: IUser) => IEditUserAction
 }
 
-
-
-const EditForm: React.FC<PropsType> = ({ user, actionEditUser, history }) => {
-  const classes = useStyles();
-
+const EditForm = (props: PropsType) => {
+  const { user } = props
+  const classes = useStyles()
+  const history = useHistory()
+  const dispatch = useDispatch()
   const [userData, setUserData] = useState(user)
   const [open, setOpen] = useState(false)
   const [validation, setValidation] = useState('')
@@ -63,11 +62,6 @@ const EditForm: React.FC<PropsType> = ({ user, actionEditUser, history }) => {
   }, [email, age])
 
 
-  const emailRegex = new RegExp(/\S+@\S+\.\S+/);
-
-  const emailValidator = (value: string): string =>
-    emailRegex.test(value) ? "" : "Please enter a valid email.";
-
 
   const fieldValidator = (): boolean => {
     return userData.name.length > 1 && !validation.length && userData.age ? false : true
@@ -75,7 +69,7 @@ const EditForm: React.FC<PropsType> = ({ user, actionEditUser, history }) => {
 
 
   const handleClick = (data: IUser): void => {
-    actionEditUser(data)
+    dispatch(actionEditUser(data))
     setOpen(true)
     setTimeout(() => {
       setOpen(false)
@@ -142,8 +136,4 @@ const EditForm: React.FC<PropsType> = ({ user, actionEditUser, history }) => {
 }
 
 
-export default withRouter(
-  connect(
-    null,
-    { actionEditUser }
-  )(EditForm))
+export default EditForm;

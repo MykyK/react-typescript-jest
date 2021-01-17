@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { DataGrid, ColDef, CellParams } from '@material-ui/data-grid';
 import EditMenu from '../editMenu';
-import { IUserData } from '../../interfaces';
-import { Checkbox } from '@material-ui/core';
-import { connect } from 'react-redux';
+import { userState } from '../../interfaces';
+import { Checkbox, Button } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts } from "../../actions";
 
 const columns: ColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -42,18 +43,23 @@ const columns: ColDef[] = [
 ];
 
 
-const UserList: React.FC<IUserData> = ({ users }) => {
+const UserList: React.FC = () => {
+  const dispatch = useDispatch();
+  const users = useSelector((state: userState) => state.users);
+  const loading = useSelector((state: userState) => state.loading);
   return (
-    <div className="user-list-wrapper" style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={users} columns={columns} pageSize={5} />
-    </div>
+    <>
+      <div className="user-list-wrapper" style={{ height: 400, width: '100%' }}>
+        <DataGrid rows={users} columns={columns} pageSize={5} loading={loading} />
+      </div>
+      {
+        !users.length && (
+          <Button onClick={() => dispatch(fetchPosts())}>load users</Button>
+        )
+      }
+    </>
   );
 }
 
-function MapStateToProps(state: IUserData): IUserData {
-  return {
-    users: state.users
-  };
-}
 
-export default connect(MapStateToProps)(UserList);
+export default UserList;

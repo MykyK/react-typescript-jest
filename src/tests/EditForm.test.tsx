@@ -1,16 +1,12 @@
 import EditForm from '../components/editForm';
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from '../store';
-import { mount, ReactWrapper } from 'enzyme';
-import { TextField, Button } from '@material-ui/core';
+import React, { useState as useStateMock } from 'react';
+import { shallow, ShallowWrapper } from 'enzyme';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, TextField } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
 import { IUser } from './../interfaces/index';
 
-
-
-
-const user: IUser = {
+const user = {
   "id": 1,
   "name": "Leanne Graham",
   "username": "Bret",
@@ -31,92 +27,96 @@ enum FieldTypes {
   Age
 }
 
-describe('EditForm', () => {
+const mockHistoryPush = jest.fn();
 
-  let component: ReactWrapper
+jest.mock('react-router-dom', () => ({
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}));
+
+
+const mockDispatch = jest.fn();
+
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn(),
+  useDispatch: () => mockDispatch
+}));
+
+// const mockSetState = jest.fn();
+
+// jest.mock('react', () => ({
+//   useState: (initial:any) => [initial, mockSetState]
+// }));
+
+
+
+
+let props = {
+  user,
+  useDispatch,
+}
+describe('EditForm', () => {
+  let component: ShallowWrapper;
+  // const setUserData = jest.fn();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // const useStateMock: any = (userData: IUser) => [userData, setUserData];
   beforeEach(() => {
-    component = mount(
-      <Provider store={store}>
-        <BrowserRouter>
-          <EditForm user={user} />
-        </BrowserRouter>
-      </Provider>
-    );
-  })
+    component = shallow(<EditForm {...props} />);
+  });
 
   afterEach(() => {
-    component.unmount()
+    jest.clearAllMocks();
+  });
+
+  it("should set new FirstName value", () => {
+    component.find(TextField).at(FieldTypes.FirstName).prop('onChange')!({ target: { value: 'TestFirstName' } })
+    expect(component.find(TextField).at(FieldTypes.FirstName).prop('value')).toBe('TestFirstName')
   })
 
-  describe('TextFields', () => {
-    it('should render TextField with FirstName default value', () => {
-      let firstName = component.find(TextField).at(FieldTypes.FirstName)
-      expect(firstName.exists()).toBe(true)
-      expect(firstName.prop('value')).toBe('Leanne')
-    });
-
-    it('should render TextField with LastName default value', () => {
-      let lastName = component.find(TextField).at(FieldTypes.LastName)
-      expect(lastName.exists()).toBe(true)
-      expect(lastName.prop('value')).toBe('Graham')
-    });
-
-    it('should render TextField with Email default value', () => {
-      let email = component.find(TextField).at(FieldTypes.Email)
-      expect(email.exists()).toBe(true)
-      expect(email.prop('value')).toBe('Sincere@april.biz')
-    });
-
-    it('should render TextField with Age default value', () => {
-      let age = component.find(TextField).at(FieldTypes.Age)
-      expect(age.exists()).toBe(true)
-      expect(age.prop('value')).toBe(21)
-    });
+  it("should set new LastName value", () => {
+    component.find(TextField).at(FieldTypes.LastName).prop('onChange')!({ target: { value: 'TestLastName' } })
+    expect(component.find(TextField).at(FieldTypes.LastName).prop('value')).toBe('TestLastName')
   })
 
 
-  describe('Edit handlers', () => {
-
-    it('should render TextField with FirstName new value', () => {
-      const event = {
-        target: { value: 'Test' },
-      }
-      expect(component.find(TextField).at(FieldTypes.FirstName).find('input').at(0).prop('value')).toBe('Leanne')
-      component.find(TextField).at(FieldTypes.FirstName).find('input').at(0).simulate('change', event)
-      component.update();
-
-      expect(component.find(TextField).at(FieldTypes.FirstName).find('input').at(0).prop('value')).toBe('Test')
-    });
-
-    it('should render TextField with LastName new value', () => {
-      const event = {
-        target: { value: 'Test' },
-      }
-      expect(component.find(TextField).at(FieldTypes.LastName).find('input').at(0).prop('value')).toBe('Graham')
-      component.find(TextField).at(FieldTypes.LastName).find('input').at(0).simulate('change', event)
-      component.update();
-      expect(component.find(TextField).at(FieldTypes.LastName).find('input').at(0).prop('value')).toBe('Test')
-    });
-
-    it('should render TextField with Email new value', () => {
-      const event = {
-        target: { value: 'Test@gmail.com' },
-      }
-      expect(component.find(TextField).at(FieldTypes.Email).find('input').at(0).prop('value')).toBe('Sincere@april.biz')
-      component.find(TextField).at(FieldTypes.Email).find('input').at(0).simulate('change', event)
-      component.update();
-      expect(component.find(TextField).at(FieldTypes.Email).find('input').at(0).prop('value')).toBe('Test@gmail.com')
-    });
-
-    it('should render TextField with Age new value', () => {
-      const event = {
-        target: { value: 18 },
-      }
-      expect(component.find(TextField).at(FieldTypes.Age).find('input').at(0).prop('value')).toBe(21)
-      component.find(TextField).at(FieldTypes.Age).find('input').at(0).simulate('change', event)
-      component.update();
-      expect(component.find(TextField).at(FieldTypes.Age).find('input').at(0).prop('value')).toBe(18)
-    });
+  it("should set new Email value", () => {
+    component.find(TextField).at(FieldTypes.Email).prop('onChange')!({ target: { value: 'TestEmail@gmail.com' } })
+    expect(component.find(TextField).at(FieldTypes.Email).prop('value')).toBe('TestEmail@gmail.com')
   })
 
+  it("should set new Age value", () => {
+    component.find(TextField).at(FieldTypes.Age).prop('onChange')!({ target: { value: '18' } })
+    expect(component.find(TextField).at(FieldTypes.Age).prop('value')).toBe('18')
+  })
+
+  it("should open and close alert", () => {
+    jest.useFakeTimers()
+    component.find(Button).at(0).prop('onClick')!(user)
+    expect(component.find(Snackbar).prop('open')).toBeTruthy()
+    setTimeout(() => {
+      expect(component.find(Snackbar).prop('open')).toBeFalsy()
+      expect(mockHistoryPush).toBeCalledWith('/')
+    }, 600)
+    jest.runAllTimers()
+  })
+
+  it('"Back" - button should call history push with "/"', () => {
+    let handler = component.find(Button).at(1).prop('onClick')
+    if (handler) {
+      handler({} as any);
+    }
+    expect(mockHistoryPush).toBeCalledWith('/')
+  })
+
+  it('Test', () => {
+    const userData = 'test'
+    const initialStateForSecondUseStateCall = 'My Second Initial State'
+
+    React.useState = jest.fn()
+      .mockReturnValueOnce([userData, {}])
+      .mockReturnValueOnce([initialStateForSecondUseStateCall, {}])
+    component.find(Button).at(0).prop('onClick')()
+    expect(userData).toBe('test')
+  })
 })

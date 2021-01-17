@@ -30,6 +30,6 @@ exports[`UserList component should rendered UserList component with default arra
     }
   }
 >
-  <Connect(UserList) />
+  <UserList />
 </ContextProvider>
 `;

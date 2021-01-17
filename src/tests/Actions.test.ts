@@ -1,5 +1,5 @@
 import configureStore from 'redux-mock-store';
-import { actionEditUser } from '../actions';
+import { actionEditUser, actionGetUsers, showLoader, hideLoader, fetchPosts } from '../actions';
 
 
 
@@ -28,14 +28,67 @@ describe('select_actions', () => {
   describe('actionEditUser', () => {
     test('Dispatches the correct action and payload', () => {
       const expectedActions =
-    [
-      {
-        'payload': {user},
-        'type': 'EDIT_USER',
-      },
-    ]
+        [
+          {
+            'payload': { user },
+            'type': 'EDIT_USER',
+          },
+        ]
 
       store.dispatch(actionEditUser(user));
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+  describe('actionGetUsers', () => {
+    test('Dispatches the correct action and payload', () => {
+      const expectedActions =
+        [
+          {
+            'payload': [user],
+            'type': 'GET_USERS',
+          },
+        ]
+
+      store.dispatch(actionGetUsers([user]));
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+  describe('showLoader', () => {
+    test('Dispatches the correct action and payload', () => {
+      const expectedActions =
+        [
+          {
+            'type': 'SHOW_LOADER',
+          },
+        ]
+
+      store.dispatch(showLoader());
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+  describe('hidLoader', () => {
+    test('Dispatches the correct action and payload', () => {
+      const expectedActions =
+        [
+          {
+            'type': 'HIDE_LOADER',
+          },
+        ]
+
+      store.dispatch(hideLoader());
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+  describe('fetchPosts', () => {
+    test('Dispatches the correct action and payload', () => {
+      const expectedActions =
+        [
+          {
+            'type': 'REQUEST_POSTS',
+          },
+        ]
+
+      store.dispatch(fetchPosts());
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

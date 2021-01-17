@@ -1,52 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import EditMenu from '../components/editMenu';
-import { BrowserRouter } from 'react-router-dom';
-import store from '../store';
-import { Provider } from 'react-redux';
 import { IconButton, Menu, MenuItem } from '@material-ui/core';
-import { mount, ReactWrapper } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
+
+type Props = {
+  id: number
+}
+
+const props: Props = {
+  id: 1
+}
+
+const mockHistoryPush = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}));
+
+
 
 
 describe('<EditMenu />', () => {
+
+
+
+
   describe('should contain IconButton element', () => {
-
-
-    let component: ReactWrapper
+    let component: ShallowWrapper
     beforeEach(() => {
-      component = mount(
-        <Provider store={store}>
-          <BrowserRouter>
-            <EditMenu
-              id={1}
-            />
-          </BrowserRouter>
-        </Provider>
+      component = shallow(
+        <EditMenu {...props} />
       );
     })
 
-    afterEach(() => {
-      component.unmount()
+    it('IconButton pass onClick event with handleClick', () => {
+      const event = {
+        currentTarget: component.find(IconButton)
+      };
+      let handleClick = component.find(IconButton).prop('onClick')
+      if (handleClick) {
+        handleClick(event as any);
+      }
+      expect(component.find(Menu).prop('open')).toBeTruthy()
+    });
+
+    it('IconButton pass onCLick event with handleRoute', () => {
+      let handleRoute = component.find(Menu).find(MenuItem).prop('onClick')
+      if (handleRoute) {
+        handleRoute({} as any);
+      }
+      expect(mockHistoryPush).toBeCalledWith(`user/${props.id}`)
     })
 
-    it('should render IconButton component', () => {
-      expect(component.find(IconButton).at(0).exists()).toBe(true)
-    });
-
     it('IconButton pass handleClick event', () => {
-      expect(component.find(Menu).at(0).prop('open')).toBeFalsy()
-      expect(component.find(Menu).at(0).prop('anchorEl')).toBe(null)
-      component.find(IconButton).at(0).simulate('click')
-      expect(component.find(Menu).at(0).prop('open')).toBeTruthy()
-      expect(component.find(Menu).at(0).prop('anchorEl')).not.toBe(null)
-      expect(component.find(Menu).at(0).prop('open')).toMatchSnapshot()
-    });
-
-    it('should render MenuItem element', () => {
-      expect(component.find(MenuItem).at(0).text()).toContain('Edit')
-    });
-
-    it('IconButton pass handleRoute event', () => {
-      expect(component.find(MenuItem).at(0).text()).toContain('Edit')
+      const outerNode = document.createElement('div');
+      document.body.appendChild(outerNode);
+      outerNode.dispatchEvent(new Event('click'));
+      expect(stateSetter).toHaveBeenCalledWith(null)
+      document.body.removeChild(outerNode)
+      expect(component.find(Menu).prop('open')).toBeFalsy()
     });
   });
 })

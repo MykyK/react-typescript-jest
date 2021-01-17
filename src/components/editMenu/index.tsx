@@ -3,32 +3,34 @@ import EditIcon from '@material-ui/icons/Edit';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { IconButton } from '@material-ui/core';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
-interface PropsType extends RouteComponentProps {
+interface PropsType {
   id: string | number,
 }
 
 
- const EditMenu:React.FC<PropsType> = ({history, id}) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+const EditMenu = (props: PropsType) => {
+  const { id } = props
+  const history = useHistory()
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>):void => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = ():void => {
+  const handleClose = (): void => {
     setAnchorEl(null);
   };
 
-  const handleRoute = ():void => {
+  const handleRoute = (): void => {
     history.push(`user/${id}`)
   }
 
   return (
     <div className='edit-menu'>
-      <IconButton className="edit-btn" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}><EditIcon/></IconButton >
+      <IconButton className="edit-btn" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}><EditIcon /></IconButton >
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
@@ -42,4 +44,4 @@ interface PropsType extends RouteComponentProps {
   );
 }
 
-export default withRouter(EditMenu);
+export default EditMenu;

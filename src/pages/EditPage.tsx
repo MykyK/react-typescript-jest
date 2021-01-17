@@ -1,25 +1,19 @@
 import React from 'react'
-import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import EditForm from '../components/editForm'
 import { IUser, IUserData } from '../interfaces';
-
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 type RouteParams = { id: string, param2?: string }
-interface PropsType extends RouteComponentProps<RouteParams> {
-  users: IUser[],
-}
 
-const EditPage: React.FC<PropsType> = ({ users, match }) => {
-  const user: IUser = users.filter((u: IUser) => u.id.toString() === match.params.id)[0];
+
+const EditPage: React.FC = () => {
+  const users = useSelector((state: IUserData) => state.users);
+  const params: RouteParams = useParams();
+  const user: IUser = users.filter((u: IUser) => u.id.toString() === params.id)[0];
   return (
-    <EditForm user={user}/>
+    <EditForm user={user} />
   )
 }
-function MapStateToProps(state: IUserData): IUserData {
-  return {
-    users: state.users
-  };
-}
 
-export default withRouter(connect(MapStateToProps)(EditPage));
+export default EditPage;

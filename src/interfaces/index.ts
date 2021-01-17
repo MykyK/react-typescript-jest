@@ -1,4 +1,3 @@
-import { EDIT_USER } from "../constants";
 
 type Geo = {
   lat: string | number;
@@ -12,7 +11,6 @@ type Address = {
   zipcode: string;
   geo?: Geo;
 };
-
 export interface IUser {
   readonly id: number | string;
   name: string;
@@ -30,11 +28,7 @@ export interface IUserData {
 }
 
 
-//ACTIONS
-
-export interface IEditUserAction {
-  type: typeof EDIT_USER;
-  payload: {
-    user: IUser;
-  };
-}
+export type userState = {
+  users: IUser[];
+  loading: boolean;
+};
