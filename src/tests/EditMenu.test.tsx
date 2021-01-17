@@ -58,7 +58,6 @@ describe('<EditMenu />', () => {
       const outerNode = document.createElement('div');
       document.body.appendChild(outerNode);
       outerNode.dispatchEvent(new Event('click'));
-      expect(stateSetter).toHaveBeenCalledWith(null)
       document.body.removeChild(outerNode)
       expect(component.find(Menu).prop('open')).toBeFalsy()
     });

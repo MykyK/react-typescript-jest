@@ -1,10 +1,9 @@
 import EditForm from '../components/editForm';
-import React, { useState as useStateMock } from 'react';
+import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button, TextField } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
-import { IUser } from './../interfaces/index';
 
 const user = {
   "id": 1,
@@ -28,7 +27,6 @@ enum FieldTypes {
 }
 
 const mockHistoryPush = jest.fn();
-
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({
     push: mockHistoryPush,
@@ -37,31 +35,22 @@ jest.mock('react-router-dom', () => ({
 
 
 const mockDispatch = jest.fn();
-
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: () => mockDispatch
 }));
 
-// const mockSetState = jest.fn();
-
-// jest.mock('react', () => ({
-//   useState: (initial:any) => [initial, mockSetState]
-// }));
 
 
 
 
-let props = {
-  user,
-  useDispatch,
-}
 describe('EditForm', () => {
   let component: ShallowWrapper;
-  // const setUserData = jest.fn();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const useStateMock: any = (userData: IUser) => [userData, setUserData];
   beforeEach(() => {
+    let props = {
+      user,
+      useDispatch,
+    }
     component = shallow(<EditForm {...props} />);
   });
 
@@ -70,7 +59,8 @@ describe('EditForm', () => {
   });
 
   it("should set new FirstName value", () => {
-    component.find(TextField).at(FieldTypes.FirstName).prop('onChange')!({ target: { value: 'TestFirstName' } })
+    let e = { target: { value: 'TestFirstName' } };
+    component.find(TextField).at(FieldTypes.FirstName).prop('onChange')!(e)
     expect(component.find(TextField).at(FieldTypes.FirstName).prop('value')).toBe('TestFirstName')
   })
 
@@ -107,16 +97,5 @@ describe('EditForm', () => {
       handler({} as any);
     }
     expect(mockHistoryPush).toBeCalledWith('/')
-  })
-
-  it('Test', () => {
-    const userData = 'test'
-    const initialStateForSecondUseStateCall = 'My Second Initial State'
-
-    React.useState = jest.fn()
-      .mockReturnValueOnce([userData, {}])
-      .mockReturnValueOnce([initialStateForSecondUseStateCall, {}])
-    component.find(Button).at(0).prop('onClick')()
-    expect(userData).toBe('test')
   })
 })

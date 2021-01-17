@@ -21,7 +21,7 @@ const user = {
 }
 
 describe('select_actions', () => {
-  beforeEach(() => { // Runs before each test in the suite
+  beforeEach(() => {
     store.clearActions();
   });
 

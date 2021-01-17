@@ -14,7 +14,7 @@ interface PropsType {
 const EditMenu = (props: PropsType) => {
   const { id } = props
   const history = useHistory()
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);

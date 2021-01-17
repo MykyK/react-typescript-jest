@@ -18,13 +18,22 @@ const user = {
 }
 
 const initialState: userState = {
+  users: [],
+  loading: false
+};
+const mockState: userState = {
   users,
   loading: false
 };
 
 describe('userReducer', () => {
-  it('should return the initial state', () => {
+  it('should render with default state', () => {
     expect(userReducer(initialState, {
+      type: 'TEST',
+    })).toEqual(initialState)
+  })
+  it('handles EDIT_USER action', () => {
+    expect(userReducer(mockState, {
       type: EDIT_USER,
       payload: {
         user
@@ -39,19 +48,19 @@ describe('userReducer', () => {
     })
   })
   it('handles GET_USER action', () => {
-    expect(userReducer(initialState, {
+    expect(userReducer(mockState, {
       type: GET_USERS,
       payload: users
-    })).toEqual({ ...initialState, users })
+    })).toEqual({ ...mockState, users })
   })
   it('handles SHOW_USER action', () => {
-    expect(userReducer(initialState, {
+    expect(userReducer(mockState, {
       type: SHOW_LOADER,
-    })).toEqual({ ...initialState, loading: true })
+    })).toEqual({ ...mockState, loading: true })
   })
   it('handles HIDE_LOADER action', () => {
-    expect(userReducer(initialState, {
+    expect(userReducer(mockState, {
       type: HIDE_LOADER,
-    })).toEqual({ ...initialState, loading: false })
+    })).toEqual({ ...mockState, loading: false })
   })
 })
