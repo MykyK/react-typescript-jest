@@ -41,9 +41,6 @@ jest.mock('react-redux', () => ({
 }));
 
 
-
-
-
 describe('EditForm', () => {
   let component: ShallowWrapper;
   beforeEach(() => {

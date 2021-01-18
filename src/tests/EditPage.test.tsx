@@ -3,6 +3,8 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import EditPage from '../pages/EditPage';
 import EditForm from './../components/editForm/index';
 import { useSelector } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { userState } from '../interfaces';
 
 const state = {
   users: [
@@ -38,7 +40,9 @@ jest.mock("react-redux", () => ({
 
 describe('<EditPage />', () => {
   let component: ShallowWrapper
+
   beforeEach(() => {
+    // state = store.getState()
     useSelector.mockImplementation(() => (state.users))
     component = shallow(<EditPage />)
   })
@@ -47,9 +51,9 @@ describe('<EditPage />', () => {
     useSelector.mockClear();
   });
 
-  it('should render EditPage component with user', () => {
+  it('should render EditPage component', () => {
     console.log(component.debug())
-    console.log(component.find(EditForm).prop('user'))
+    expect(component.find(EditForm).exists()).toBeTruthy()
   })
 
 })

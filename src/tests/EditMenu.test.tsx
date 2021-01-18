@@ -24,10 +24,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('<EditMenu />', () => {
 
-
-
-
-  describe('should contain IconButton element', () => {
+  describe('should render EditMenu', () => {
     let component: ShallowWrapper
     beforeEach(() => {
       component = shallow(
@@ -46,7 +43,7 @@ describe('<EditMenu />', () => {
       expect(component.find(Menu).prop('open')).toBeTruthy()
     });
 
-    it('IconButton pass onCLick event with handleRoute', () => {
+    it('MenuItem pass onCLick event with handleRoute', () => {
       let handleRoute = component.find(Menu).find(MenuItem).prop('onClick')
       if (handleRoute) {
         handleRoute({} as any);
@@ -54,7 +51,7 @@ describe('<EditMenu />', () => {
       expect(mockHistoryPush).toBeCalledWith(`user/${props.id}`)
     })
 
-    it('IconButton pass handleClick event', () => {
+    it('Menu pass onClose event', () => {
       const outerNode = document.createElement('div');
       document.body.appendChild(outerNode);
       outerNode.dispatchEvent(new Event('click'));
